@@ -1,12 +1,16 @@
 import React from 'react';
+import LayOut from '../../Componets/LayOut/LayOut';
+import { Carousel } from 'react-responsive-carousel';
+import Category from '../../Componets/Category/Category';
+import Product from '../../Componets/Product/Product';
 
 function Landing() {
   return (
-    <div>
+    <LayOut>
         <Carousel/>
         <Category/>
         <Product/>
-    </div>
+    </LayOut>
   )
 }
 
