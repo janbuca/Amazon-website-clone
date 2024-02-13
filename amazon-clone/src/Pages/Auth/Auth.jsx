@@ -1,5 +1,6 @@
-import React from 'react'
-import LayOut from '../../Componets/LayOut/LayOut'
+import React from 'react';
+import classes from './SignUp.module.css';
+import LayOut from '../../Componets/LayOut/LayOut';
 
 function Auth() {
   return (
