@@ -1,17 +1,28 @@
 import React, { useState, useContext } from "react";
 import classes from "./SignUp.module.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../../Utility/firebase";
-import {signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+   createUserWithEmailAndPassword
+} from "firebase/auth";
+import { ClipLoader } from "react-spinners";
 import { DataContext } from "../../Componets/DataProvider/DataProvider";
+import { Type } from "../../Utility/action.type";
 
 function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const [loading, setLoading] = useState({
+    signIn: false,
+    signUP: false,
+  });
 
   const [{ user }, dispatch] = useContext(DataContext);
+  const navigate = useNavigate();
+  const navStateData = useLocation();
+  console.log(navStateData);
 
     // console.log(user);
 
@@ -61,9 +72,24 @@ function Auth() {
           alt=""
         />
       </Link>
+
+
       {/* form */}
       <div className={classes.login__container}>
         <h1>Sign In</h1>
+
+        {navStateData?.state?.msg && (
+          <small
+            style={{
+              padding: "5px",
+              textAlign: "center",
+              color: "red",
+              fontWeight: "bold",
+            }}
+          >
+            {navStateData?.state?.msg}
+          </small>
+        )}
 
         <form action="">
           <div>
@@ -90,11 +116,17 @@ function Auth() {
             name="signin"
             className={classes.login__signInButton}
           >
-            Sign In
+            {loading.signIn ? (
+              <ClipLoader color="#000" size={15}></ClipLoader>
+            ) : (
+              " Sign In"
+            )}
           </button>
         </form>
-        {/* agreement */}
-        <p>
+        
+
+         {/* agreement */}
+         <p>
           By signing-in you agree to the AMAZON FAKE CLONE Conditions of Use &
           Sale. Please see our Privacy Notice, our Cookies Notice and our
           Interest-Based Ads Notice.
@@ -107,8 +139,15 @@ function Auth() {
           onClick={authHandler}
           className={classes.login__registerButton}
         >
-          Create your Amazon Account
+          {loading.signUP ? (
+            <ClipLoader color="#000" size={15}></ClipLoader>
+          ) : (
+            "Create your Amazon Account"
+          )}
         </button>
+        {error && (
+          <small style={{ paddingTop: "5px", color: "red" }}>{error}</small>
+        )}
       </div>
     </section>
   );
