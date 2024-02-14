@@ -11,6 +11,7 @@ import {
     Routes,
     Route,
   } from "react-router-dom";
+import ProductDetail from './Pages/ProductDetail/ProductDetail';
 
 
 function Routing() {
@@ -22,6 +23,7 @@ function Routing() {
         <Route path="/payments" element={<Payment />} />
         <Route path="/Orders" element={<Orders />} />
         <Route path="/category/:categoryName" element={ <Results />} />
+        <Route path="/products/:productId" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
 
         </Routes>
