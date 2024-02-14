@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import Landing from './Pages/Landing/Landing';
 import Auth from './Pages/Auth/Auth';
 import Payment from './Pages/Payment/Payment';
