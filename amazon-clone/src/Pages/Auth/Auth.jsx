@@ -1,12 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import classes from "./SignUp.module.css";
 import { Link } from "react-router-dom";
 import { auth } from "../../Utility/firebase";
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth";
+import { DataContext } from "../../Componets/DataProvider/DataProvider";
 
 function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+
+  const [{ user }, dispatch] = useContext(DataContext);
+
+    // console.log(user);
+
+    const authHandler = async (e) => {
+      e.preventDefault();
+      console.log(e.target.name);
+      if (e.target.name == "signin") {
+        // firebase auth
+        setLoading({ ...loading, signIn: true });
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userInfo) => {
+            dispatch({
+              type: Type.SET_USER,
+              user: userInfo.user,
+            });
+            setLoading({ ...loading, signIn: false });
+            navigate(navStateData?.state?.redirect || "/");
+          })
+          .catch((err) => {
+            setError(err.message);
+            setLoading({ ...loading, signIn: false });
+          });
+      } else {
+        setLoading({ ...loading, signUP: true });
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userInfo) => {
+            dispatch({
+              type: Type.SET_USER,
+              user: userInfo.user,
+            });
+            setLoading({ ...loading, signUP: false });
+            navigate(navStateData?.state?.redirect || "/");
+          })
+          .catch((err) => {
+            setError(err.message);
+            setLoading({ ...loading, signUP: false });
+          });
+      }
+    };
+
   return (
     <section className={classes.login}>
       {/* logo */}
@@ -24,22 +69,29 @@ function Auth() {
           <div>
             <label htmlFor="email">Email</label>
             <input
-             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-             type="email"
-             id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              id="email"
             />
           </div>
           <div>
             <label htmlFor="password">Password</label>
             <input
-             value={password}
-             onChange={(e) => setPassword(e.target.value)}
-             type="password"
-             id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              id="password"
             />
           </div>
-          <button className={classes.login__signInButton}>Sign In</button>
+          <button
+            type="submit"
+            onClick={authHandler}
+            name="signin"
+            className={classes.login__signInButton}
+          >
+            Sign In
+          </button>
         </form>
         {/* agreement */}
         <p>
@@ -49,13 +101,14 @@ function Auth() {
         </p>
 
         {/* create account btn */}
-      <button 
-      type="submit"
-      name="signup"
-      className={classes.login__registerButton}>
-        Create your Amazon Account
-      </button>
-
+        <button
+          type="submit"
+          name="signup"
+          onClick={authHandler}
+          className={classes.login__registerButton}
+        >
+          Create your Amazon Account
+        </button>
       </div>
     </section>
   );

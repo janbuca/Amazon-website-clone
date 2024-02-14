@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import { Type } from "./action.type";
 export const initialState = {
     basket: [],
-    //user: null,
+    user: null,
   };
 export const reducer = (state, action) =>{
     switch (action.type) {
