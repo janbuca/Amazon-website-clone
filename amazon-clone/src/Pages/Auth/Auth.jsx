@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./SignUp.module.css";
-//import LayOut from '../../Componets/LayOut/LayOut';
 import { Link } from "react-router-dom";
+import { auth } from "../../Utility/firebase";
 
 function Auth() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   return (
     <section className={classes.login}>
       {/* logo */}
@@ -21,19 +24,19 @@ function Auth() {
           <div>
             <label htmlFor="email">Email</label>
             <input
-            // value={email}
-            // onChange={(e) => setEmail(e.target.value)}
-            // type="email"
-            // id="email"
+             value={email}
+            onChange={(e) => setEmail(e.target.value)}
+             type="email"
+             id="email"
             />
           </div>
           <div>
             <label htmlFor="password">Password</label>
             <input
-            // value={password}
-            // onChange={(e) => setPassword(e.target.value)}
-            // type="password"
-            // id="password"
+             value={password}
+             onChange={(e) => setPassword(e.target.value)}
+             type="password"
+             id="password"
             />
           </div>
           <button className={classes.login__signInButton}>Sign In</button>
