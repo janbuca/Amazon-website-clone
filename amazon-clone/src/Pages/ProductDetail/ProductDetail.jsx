@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import classes from './ProductDetail.module.css';
+//import classes from './ProductDetail.module.css';
 import LayOut from '../../Componets/LayOut/LayOut';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { productUrl } from '../../Api/endPoints';
 import ProductCard from '../../Componets/Product/ProductCard';
+import Loader from '../../Componets/Loader/Loder';
 
 function ProductDetail() {
   const [product, setProduct] = useState({});
@@ -23,9 +24,15 @@ function ProductDetail() {
   }, [])
   return (
     <LayOut>
-    <ProductCard 
-     product={product}
-    />
+     {isLoading? (<Loader/>):(
+   <ProductCard
+    product={product}
+    flex ={true}
+    renderDesc={true}
+    renderAdd={true}
+
+
+/>)}
     </LayOut>
   )
 }
