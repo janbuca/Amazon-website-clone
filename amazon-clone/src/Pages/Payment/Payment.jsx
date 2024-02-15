@@ -24,7 +24,6 @@ function Payment() {
 
   const [cardError, setCardError] = useState(null);
   const [processing, setProcessing] = useState(false);
-  
 
   const stripe = useStripe();
   const elements = useElements();
@@ -40,7 +39,6 @@ function Payment() {
 
     try {
       setProcessing(true);
-
       // 1. backend || functions ---> contact to the client secret
       const response = await axiosInstance({
         method: "POST",
@@ -51,7 +49,7 @@ function Payment() {
       const clientSecret = response.data?.clientSecret;
 
       // 2. client side (react side confirmation)
-      const {paymentIntent} = await stripe.confirmCardPayment(clientSecret, {
+      const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
         },
@@ -74,7 +72,7 @@ function Payment() {
       dispatch({ type: Type.EMPTY_BASKET });
 
       setProcessing(false);
-      navigate("/Orders", { state: { msg: "you have placed new Order" } });
+      navigate("/orders", { state: { msg: "you have placed new Order" } });
     } catch (error) {
       console.log(error);
       setProcessing(false);
@@ -95,10 +93,11 @@ function Payment() {
           <div>
             <div>{user?.email}</div>
             <div>123 React Lane</div>
-            <div>Addis Abeba, Ethiopian</div>
+            <div>Chicago, IL</div>
           </div>
         </div>
         <hr />
+
         {/* product */}
         <div className={classes.flex}>
           <h3>Review items and delivery</h3>
@@ -109,6 +108,7 @@ function Payment() {
           </div>
         </div>
         <hr />
+
         {/* card form */}
         <div className={classes.flex}>
           <h3>Payment methods</h3>
@@ -119,7 +119,6 @@ function Payment() {
                 {cardError && (
                   <small style={{ color: "red" }}>{cardError}</small>
                 )}
-
                 {/* card element */}
                 <CardElement onChange={handleChange} />
 
