@@ -1,13 +1,20 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import classes from './Payment.module.css';
 import LayOut from '../../Componets/LayOut/LayOut';
+import { DataContext } from '../../Componets/DataProvider/DataProvider';
 
 function Payment() {
+  const [{ user, basket }, dispatch] = useContext(DataContext);
+  console.log(user);
+
+  const totalItem = basket?.reduce((amount, item) => {
+    return item.amount + amount;
+  }, 0);
   return (
     <LayOut>
         {/* header */}
       <div className={classes.payment__header}>
-        Checkout  items
+        Checkout  ({totalItem}) items
       </div>
       {/* payment method */}
       <section className={classes.payment}>
@@ -15,9 +22,9 @@ function Payment() {
         <div className={classes.flex}>
           <h3>Delivery Address</h3>
           <div>
-            <div>email</div>
+            <div>{user?.email}</div>
             <div>123 React Lane</div>
-            <div>Chicago, IL</div>
+            <div>Addis Abeba, Ethiopian</div>
           </div>
         </div>
         <hr />
@@ -37,7 +44,7 @@ function Payment() {
          <div className={classes.payment__card__container}>
           <div className={classes.payment__details}>
             <form action="">
-              
+
             </form>
 
           </div>
